@@ -20,6 +20,7 @@ import { join } from 'path';
         entities: [join(__dirname, '*', '.entity.{ts,js}')],
         logging: true,
         synchronize: true,
+        autoLoadEntities: true,
       }),
       inject: [ConfigService],
     }),
