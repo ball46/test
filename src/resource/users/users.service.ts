@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,13 +13,25 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    if (createUserDto !== null && createUserDto !== undefined) {
+    try {
       return await this.usersRepository.save(createUserDto);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error when creating user',
+        error.stack,
+      );
     }
   }
 
   findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+    try {
+      return this.usersRepository.find();
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error when fetching users',
+        error.stack,
+      );
+    }
   }
 
   findOne(id: number): Promise<User | null> {
@@ -33,6 +45,13 @@ export class UsersService {
   }
 
   async remove(id: number): Promise<DeleteResult> {
-    return await this.usersRepository.delete(id);
+    try {
+      return await this.usersRepository.delete(id);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Error when deleting user',
+        error.stack,
+      );
+    }
   }
 }

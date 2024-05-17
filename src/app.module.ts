@@ -21,6 +21,7 @@ import { join } from 'path';
         logging: true,
         synchronize: true,
         autoLoadEntities: true,
+        // ssl: true, // enable ssl when use postgres sql if use mysql comment this line
       }),
       inject: [ConfigService],
     }),
